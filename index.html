@@ -1,0 +1,620 @@
+```html
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mazali taomlarni onlayn buyurtma qiling">
+    <title>FOODGO — Online Food Delivery</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="container nav">
+
+        <a href="#" class="logo">
+            <span>FOOD</span>GO
+        </a>
+
+        <nav class="menu">
+            <a href="#home">Bosh sahifa</a>
+            <a href="#categories">Kategoriyalar</a>
+            <a href="#popular">Mashhur</a>
+            <a href="#restaurants">Restoranlar</a>
+        </nav>
+
+        <div class="nav-right">
+            <a href="#" class="location">
+                📍 Toshkent
+            </a>
+
+            <a href="#cart" class="cart">
+                🛒
+                <span>2</span>
+            </a>
+
+            <a href="#login" class="login-btn">
+                Kirish
+            </a>
+        </div>
+
+    </div>
+</header>
+
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+    <div class="container hero-grid">
+
+        <div class="hero-content">
+
+            <div class="badge">
+                🔥 Bugun bepul yetkazib berish
+            </div>
+
+            <h1>
+                Sevimli taomingiz
+                <strong>bir necha daqiqada</strong>
+                eshigingizda
+            </h1>
+
+            <p>
+                Shahardagi eng yaxshi restoranlardan mazali taomlarni
+                tanlang va uyingizgacha yetkazib beramiz.
+            </p>
+
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" placeholder="Taom yoki restoran qidiring...">
+                <button>Qidirish</button>
+            </div>
+
+            <div class="hero-stats">
+                <div>
+                    <strong>500+</strong>
+                    <small>Restoran</small>
+                </div>
+
+                <div>
+                    <strong>10K+</strong>
+                    <small>Taomlar</small>
+                </div>
+
+                <div>
+                    <strong>30 min</strong>
+                    <small>O‘rtacha yetkazish</small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-image">
+
+            <div class="delivery-card">
+                <div class="delivery-icon">🚴</div>
+                <div>
+                    <strong>Tez yetkazib berish</strong>
+                    <small>25–35 daqiqa</small>
+                </div>
+            </div>
+
+            <div class="food-circle">
+                <span>🍕</span>
+            </div>
+
+            <div class="floating-card">
+                <span>⭐</span>
+                <div>
+                    <strong>4.9/5</strong>
+                    <small>10K+ sharh</small>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+<section class="section" id="categories">
+
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="eyebrow">KATEGORIYALAR</span>
+                <h2>Nimani xohlaysiz?</h2>
+            </div>
+
+            <a href="#" class="view-all">Barchasini ko‘rish →</a>
+        </div>
+
+        <div class="categories">
+
+            <a href="#" class="category active">
+                <span>🍔</span>
+                <strong>Burger</strong>
+                <small>120 ta</small>
+            </a>
+
+            <a href="#" class="category">
+                <span>🍕</span>
+                <strong>Pizza</strong>
+                <small>85 ta</small>
+            </a>
+
+            <a href="#" class="category">
+                <span>🍣</span>
+                <strong>Sushi</strong>
+                <small>64 ta</small>
+            </a>
+
+            <a href="#" class="category">
+                <span>🍗</span>
+                <strong>Tovuq</strong>
+                <small>93 ta</small>
+            </a>
+
+            <a href="#" class="category">
+                <span>🥗</span>
+                <strong>Salat</strong>
+                <small>48 ta</small>
+            </a>
+
+            <a href="#" class="category">
+                <span>🍰</span>
+                <strong>Shirinlik</strong>
+                <small>76 ta</small>
+            </a>
+
+            <a href="#" class="category">
+                <span>🥤</span>
+                <strong>Ichimlik</strong>
+                <small>102 ta</small>
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROMO -->
+<section class="container promo">
+
+    <div class="promo-content">
+        <span class="promo-label">MAXSUS TAKLIF</span>
+
+        <h2>
+            Birinchi buyurtmangizga
+            <strong>30% chegirma!</strong>
+        </h2>
+
+        <p>
+            PROMO30 kodini kiriting va chegirmadan foydalaning.
+        </p>
+
+        <a href="#popular" class="promo-button">
+            Buyurtma berish →
+        </a>
+    </div>
+
+    <div class="promo-food">
+        🍔
+    </div>
+
+</section>
+
+
+<!-- POPULAR -->
+<section class="section" id="popular">
+
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="eyebrow">MASHHUR TAOMLAR</span>
+                <h2>Bugun nima yeymiz?</h2>
+            </div>
+
+            <a href="#" class="view-all">
+                Barchasini ko‘rish →
+            </a>
+        </div>
+
+
+        <div class="products">
+
+            <!-- PRODUCT 1 -->
+            <article class="product">
+
+                <div class="product-image">
+                    🍔
+                    <span class="discount">-20%</span>
+                    <button class="favorite">♡</button>
+                </div>
+
+                <div class="product-info">
+
+                    <div class="rating">
+                        ⭐ 4.9 <span>(256)</span>
+                    </div>
+
+                    <h3>Double Cheeseburger</h3>
+
+                    <p>
+                        Ikki qavatli mol go‘shti, cheddar pishlog‘i,
+                        maxsus sous va yangi sabzavotlar.
+                    </p>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            <strong>49 000</strong>
+                            <del>61 000</del>
+                            <span>so‘m</span>
+                        </div>
+
+                        <a href="#cart" class="add">
+                            +
+                        </a>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 2 -->
+            <article class="product">
+
+                <div class="product-image">
+                    🍕
+                    <span class="discount">-15%</span>
+                    <button class="favorite">♡</button>
+                </div>
+
+                <div class="product-info">
+
+                    <div class="rating">
+                        ⭐ 4.8 <span>(184)</span>
+                    </div>
+
+                    <h3>Pepperoni Pizza</h3>
+
+                    <p>
+                        Mozzarella pishlog‘i, pepperoni va maxsus
+                        pomidor sousi.
+                    </p>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            <strong>75 000</strong>
+                            <del>88 000</del>
+                            <span>so‘m</span>
+                        </div>
+
+                        <a href="#cart" class="add">
+                            +
+                        </a>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 3 -->
+            <article class="product">
+
+                <div class="product-image">
+                    🍗
+                    <button class="favorite">♡</button>
+                </div>
+
+                <div class="product-info">
+
+                    <div class="rating">
+                        ⭐ 4.9 <span>(312)</span>
+                    </div>
+
+                    <h3>Crispy Chicken</h3>
+
+                    <p>
+                        Qarsildoq qovurilgan tovuq, fri va maxsus
+                        sarimsoqli sous.
+                    </p>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            <strong>42 000</strong>
+                            <span>so‘m</span>
+                        </div>
+
+                        <a href="#cart" class="add">
+                            +
+                        </a>
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCT 4 -->
+            <article class="product">
+
+                <div class="product-image">
+                    🍣
+                    <span class="discount">-10%</span>
+                    <button class="favorite">♡</button>
+                </div>
+
+                <div class="product-info">
+
+                    <div class="rating">
+                        ⭐ 4.7 <span>(98)</span>
+                    </div>
+
+                    <h3>California Roll</h3>
+
+                    <p>
+                        Guruch, nori, bodring, avokado va
+                        yumshoq krem pishlog‘i.
+                    </p>
+
+                    <div class="product-bottom">
+                        <div class="price">
+                            <strong>65 000</strong>
+                            <del>72 000</del>
+                            <span>so‘m</span>
+                        </div>
+
+                        <a href="#cart" class="add">
+                            +
+                        </a>
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- RESTAURANTS -->
+<section class="section restaurants" id="restaurants">
+
+    <div class="container">
+
+        <div class="section-head">
+            <div>
+                <span class="eyebrow">TOP RESTORANLAR</span>
+                <h2>Sizga yaqin restoranlar</h2>
+            </div>
+
+            <a href="#" class="view-all">
+                Barchasini ko‘rish →
+            </a>
+        </div>
+
+
+        <div class="restaurant-grid">
+
+            <article class="restaurant">
+                <div class="restaurant-cover">🍔</div>
+
+                <div class="restaurant-info">
+                    <div class="restaurant-logo">🍔</div>
+
+                    <div>
+                        <h3>Burger House</h3>
+                        <p>Fast Food • Burger</p>
+
+                        <div class="restaurant-meta">
+                            ⭐ 4.9
+                            <span>•</span>
+                            🚴 25–30 min
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="restaurant">
+                <div class="restaurant-cover pizza">🍕</div>
+
+                <div class="restaurant-info">
+                    <div class="restaurant-logo">🍕</div>
+
+                    <div>
+                        <h3>Pizza Roma</h3>
+                        <p>Italian • Pizza</p>
+
+                        <div class="restaurant-meta">
+                            ⭐ 4.8
+                            <span>•</span>
+                            🚴 20–25 min
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+            <article class="restaurant">
+                <div class="restaurant-cover sushi">🍣</div>
+
+                <div class="restaurant-info">
+                    <div class="restaurant-logo">🍣</div>
+
+                    <div>
+                        <h3>Sakura Sushi</h3>
+                        <p>Japanese • Sushi</p>
+
+                        <div class="restaurant-meta">
+                            ⭐ 4.7
+                            <span>•</span>
+                            🚴 30–35 min
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ORDER -->
+<section class="order-section" id="cart">
+
+    <div class="container order-grid">
+
+        <div class="order-text">
+
+            <span class="eyebrow">BUYURTMA BERISH</span>
+
+            <h2>
+                Taomingizni tanlang,
+                qolganini biz hal qilamiz.
+            </h2>
+
+            <p>
+                Buyurtmangizni yetkazib berish uchun ma’lumotlaringizni
+                kiriting.
+            </p>
+
+        </div>
+
+
+        <form class="order-form">
+
+            <h3>Buyurtma ma’lumotlari</h3>
+
+            <label>
+                Ismingiz
+                <input type="text" placeholder="Ismingizni kiriting">
+            </label>
+
+            <label>
+                Telefon raqam
+                <input type="tel" placeholder="+998 90 123 45 67">
+            </label>
+
+            <label>
+                Yetkazib berish manzili
+                <input type="text" placeholder="Manzilni kiriting">
+            </label>
+
+            <label>
+                To‘lov turi
+                <select>
+                    <option>Naqd pul</option>
+                    <option>Click</option>
+                    <option>Payme</option>
+                    <option>Bank karta</option>
+                </select>
+            </label>
+
+            <label>
+                Izoh
+                <textarea placeholder="Buyurtma bo‘yicha izoh..."></textarea>
+            </label>
+
+            <div class="order-total">
+                <span>Jami:</span>
+                <strong>166 000 so‘m</strong>
+            </div>
+
+            <button type="submit" class="order-button">
+                Buyurtma berish
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+
+    <div class="container footer-grid">
+
+        <div class="footer-brand">
+
+            <a href="#" class="logo">
+                <span>FOOD</span>GO
+            </a>
+
+            <p>
+                Sevimli taomlaringizni tez va qulay
+                tarzda buyurtma qiling.
+            </p>
+
+            <div class="socials">
+                <a href="#">Instagram</a>
+                <a href="#">Telegram</a>
+                <a href="#">Facebook</a>
+            </div>
+
+        </div>
+
+
+        <div>
+            <h4>Kompaniya</h4>
+            <a href="#">Biz haqimizda</a>
+            <a href="#">Restoranlar</a>
+            <a href="#">Kuryer bo‘lish</a>
+            <a href="#">Vakansiyalar</a>
+        </div>
+
+
+        <div>
+            <h4>Yordam</h4>
+            <a href="#">FAQ</a>
+            <a href="#">Yetkazib berish</a>
+            <a href="#">To‘lovlar</a>
+            <a href="#">Bog‘lanish</a>
+        </div>
+
+
+        <div>
+            <h4>Aloqa</h4>
+            <a href="tel:+998901234567">+998 90 123 45 67</a>
+            <a href="mailto:info@foodgo.uz">info@foodgo.uz</a>
+            <p>Toshkent, O‘zbekiston</p>
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+        <div class="container">
+            © 2026 FOODGO. Barcha huquqlar himoyalangan.
+        </div>
+    </div>
+
+</footer>
+
+</body>
+</html>
+```
