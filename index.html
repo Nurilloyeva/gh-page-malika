@@ -1,620 +1,1434 @@
-```html
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Mazali taomlarni onlayn buyurtma qiling">
-    <title>FOODGO — Online Food Delivery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BLOCK WORLD X</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-    <link rel="stylesheet" href="style.css">
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:Arial,sans-serif;
+}
+
+canvas{
+    display:block;
+}
+
+#crosshair{
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    color:white;
+    font-size:28px;
+    z-index:20;
+    pointer-events:none;
+    text-shadow:0 0 4px #000;
+}
+
+#hud{
+    position:fixed;
+    top:15px;
+    left:15px;
+    z-index:30;
+    color:white;
+    font-weight:bold;
+    text-shadow:2px 2px 3px #000;
+}
+
+#health{
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+#info{
+    font-size:14px;
+    line-height:1.5;
+}
+
+#inventory{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:6px;
+    z-index:50;
+    background:rgba(0,0,0,.45);
+    padding:8px;
+    border:2px solid rgba(255,255,255,.35);
+}
+
+.slot{
+    width:58px;
+    height:58px;
+    border:3px solid #777;
+    background:rgba(30,30,30,.8);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    cursor:pointer;
+}
+
+.slot.selected{
+    border-color:white;
+    transform:translateY(-5px);
+}
+
+.slot .num{
+    position:absolute;
+    left:4px;
+    top:2px;
+    color:white;
+    font-size:12px;
+}
+
+.slot .count{
+    position:absolute;
+    right:4px;
+    bottom:2px;
+    color:white;
+    font-size:13px;
+}
+
+.block-icon{
+    width:30px;
+    height:30px;
+    border:1px solid #222;
+}
+
+#start{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(#07111dcc,#000);
+    color:white;
+    text-align:center;
+}
+
+.panel{
+    width:min(550px,90%);
+    background:rgba(10,10,15,.92);
+    border:2px solid #777;
+    padding:35px;
+    box-shadow:0 0 40px #000;
+}
+
+.panel h1{
+    font-size:44px;
+    margin-bottom:10px;
+    letter-spacing:3px;
+}
+
+.panel p{
+    color:#ccc;
+    margin:10px 0;
+    line-height:1.6;
+}
+
+button{
+    border:0;
+    background:#fff;
+    color:#000;
+    padding:14px 24px;
+    font-weight:bold;
+    font-size:17px;
+    cursor:pointer;
+    margin-top:15px;
+}
+
+#message{
+    position:fixed;
+    left:50%;
+    top:20%;
+    transform:translateX(-50%);
+    z-index:80;
+    color:white;
+    font-weight:bold;
+    font-size:20px;
+    opacity:0;
+    text-shadow:2px 2px 4px #000;
+}
+</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="header">
-    <div class="container nav">
-
-        <a href="#" class="logo">
-            <span>FOOD</span>GO
-        </a>
-
-        <nav class="menu">
-            <a href="#home">Bosh sahifa</a>
-            <a href="#categories">Kategoriyalar</a>
-            <a href="#popular">Mashhur</a>
-            <a href="#restaurants">Restoranlar</a>
-        </nav>
-
-        <div class="nav-right">
-            <a href="#" class="location">
-                📍 Toshkent
-            </a>
-
-            <a href="#cart" class="cart">
-                🛒
-                <span>2</span>
-            </a>
-
-            <a href="#login" class="login-btn">
-                Kirish
-            </a>
-        </div>
-
-    </div>
-</header>
-
-
-<!-- HERO -->
-<section class="hero" id="home">
-
-    <div class="container hero-grid">
-
-        <div class="hero-content">
-
-            <div class="badge">
-                🔥 Bugun bepul yetkazib berish
-            </div>
-
-            <h1>
-                Sevimli taomingiz
-                <strong>bir necha daqiqada</strong>
-                eshigingizda
-            </h1>
-
-            <p>
-                Shahardagi eng yaxshi restoranlardan mazali taomlarni
-                tanlang va uyingizgacha yetkazib beramiz.
-            </p>
-
-            <div class="search-box">
-                <span>🔍</span>
-                <input type="text" placeholder="Taom yoki restoran qidiring...">
-                <button>Qidirish</button>
-            </div>
-
-            <div class="hero-stats">
-                <div>
-                    <strong>500+</strong>
-                    <small>Restoran</small>
-                </div>
-
-                <div>
-                    <strong>10K+</strong>
-                    <small>Taomlar</small>
-                </div>
-
-                <div>
-                    <strong>30 min</strong>
-                    <small>O‘rtacha yetkazish</small>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="hero-image">
-
-            <div class="delivery-card">
-                <div class="delivery-icon">🚴</div>
-                <div>
-                    <strong>Tez yetkazib berish</strong>
-                    <small>25–35 daqiqa</small>
-                </div>
-            </div>
-
-            <div class="food-circle">
-                <span>🍕</span>
-            </div>
-
-            <div class="floating-card">
-                <span>⭐</span>
-                <div>
-                    <strong>4.9/5</strong>
-                    <small>10K+ sharh</small>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- CATEGORIES -->
-<section class="section" id="categories">
-
-    <div class="container">
-
-        <div class="section-head">
-            <div>
-                <span class="eyebrow">KATEGORIYALAR</span>
-                <h2>Nimani xohlaysiz?</h2>
-            </div>
-
-            <a href="#" class="view-all">Barchasini ko‘rish →</a>
-        </div>
-
-        <div class="categories">
-
-            <a href="#" class="category active">
-                <span>🍔</span>
-                <strong>Burger</strong>
-                <small>120 ta</small>
-            </a>
-
-            <a href="#" class="category">
-                <span>🍕</span>
-                <strong>Pizza</strong>
-                <small>85 ta</small>
-            </a>
-
-            <a href="#" class="category">
-                <span>🍣</span>
-                <strong>Sushi</strong>
-                <small>64 ta</small>
-            </a>
-
-            <a href="#" class="category">
-                <span>🍗</span>
-                <strong>Tovuq</strong>
-                <small>93 ta</small>
-            </a>
-
-            <a href="#" class="category">
-                <span>🥗</span>
-                <strong>Salat</strong>
-                <small>48 ta</small>
-            </a>
-
-            <a href="#" class="category">
-                <span>🍰</span>
-                <strong>Shirinlik</strong>
-                <small>76 ta</small>
-            </a>
-
-            <a href="#" class="category">
-                <span>🥤</span>
-                <strong>Ichimlik</strong>
-                <small>102 ta</small>
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- PROMO -->
-<section class="container promo">
-
-    <div class="promo-content">
-        <span class="promo-label">MAXSUS TAKLIF</span>
-
-        <h2>
-            Birinchi buyurtmangizga
-            <strong>30% chegirma!</strong>
-        </h2>
-
+<div id="start">
+    <div class="panel">
+        <h1>BLOCK WORLD X</h1>
+        <p>O'zing yaratgan voxel dunyoga xush kelibsiz.</p>
         <p>
-            PROMO30 kodini kiriting va chegirmadan foydalaning.
+            WASD — yurish<br>
+            SPACE — sakrash<br>
+            Sichqoncha — qarash<br>
+            Chap tugma — blokni buzish<br>
+            O'ng tugma — blok qo'yish<br>
+            1-6 — blok tanlash<br>
+            F — saqlash
         </p>
-
-        <a href="#popular" class="promo-button">
-            Buyurtma berish →
-        </a>
+        <button id="play">O'YINNI BOSHLASH</button>
     </div>
+</div>
 
-    <div class="promo-food">
-        🍔
+<div id="crosshair">+</div>
+
+<div id="hud">
+    <div id="health">❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+    <div id="info">
+        BLOCK WORLD X<br>
+        <span id="coords">X:0 Y:0 Z:0</span><br>
+        <span id="selectedName">Grass</span>
     </div>
+</div>
+
+<div id="message"></div>
+
+<div id="inventory"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<script>
+
+/* =========================================================
+   BLOCK WORLD X
+   ========================================================= */
+
+const scene = new THREE.Scene();
+
+scene.background = new THREE.Color(0x86c9ff);
+scene.fog = new THREE.Fog(0x86c9ff,45,180);
+
+const camera = new THREE.PerspectiveCamera(
+    75,
+    innerWidth/innerHeight,
+    0.05,
+    400
+);
+
+const renderer = new THREE.WebGLRenderer({
+    antialias:true
+});
+
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-</section>
+document.body.appendChild(renderer.domElement);
 
+/* =========================================================
+   LIGHT
+   ========================================================= */
 
-<!-- POPULAR -->
-<section class="section" id="popular">
+const hemi = new THREE.HemisphereLight(
+    0xbde7ff,
+    0x555555,
+    1.4
+);
 
-    <div class="container">
+scene.add(hemi);
 
-        <div class="section-head">
-            <div>
-                <span class="eyebrow">MASHHUR TAOMLAR</span>
-                <h2>Bugun nima yeymiz?</h2>
-            </div>
+const sun = new THREE.DirectionalLight(
+    0xffffff,
+    2
+);
 
-            <a href="#" class="view-all">
-                Barchasini ko‘rish →
-            </a>
-        </div>
+sun.position.set(40,80,20);
+sun.castShadow = true;
 
+sun.shadow.mapSize.width = 2048;
+sun.shadow.mapSize.height = 2048;
 
-        <div class="products">
+sun.shadow.camera.left = -100;
+sun.shadow.camera.right = 100;
+sun.shadow.camera.top = 100;
+sun.shadow.camera.bottom = -100;
 
-            <!-- PRODUCT 1 -->
-            <article class="product">
+scene.add(sun);
 
-                <div class="product-image">
-                    🍔
-                    <span class="discount">-20%</span>
-                    <button class="favorite">♡</button>
-                </div>
+/* =========================================================
+   TEXTURES / MATERIALS
+   ========================================================= */
 
-                <div class="product-info">
+function mat(color){
+    return new THREE.MeshLambertMaterial({
+        color:color
+    });
+}
 
-                    <div class="rating">
-                        ⭐ 4.9 <span>(256)</span>
-                    </div>
+const materials = {
 
-                    <h3>Double Cheeseburger</h3>
+    grass:mat(0x55aa38),
+    dirt:mat(0x80512c),
+    stone:mat(0x7d7d7d),
+    sand:mat(0xd9c27a),
+    wood:mat(0x8b5a32),
+    leaves:mat(0x2e8b39),
+    glass:new THREE.MeshLambertMaterial({
+        color:0x9eeeff,
+        transparent:true,
+        opacity:.45
+    }),
+    brick:mat(0x9c4937),
+    obsidian:mat(0x29213d),
+    water:new THREE.MeshLambertMaterial({
+        color:0x2874c7,
+        transparent:true,
+        opacity:.72
+    })
+};
 
-                    <p>
-                        Ikki qavatli mol go‘shti, cheddar pishlog‘i,
-                        maxsus sous va yangi sabzavotlar.
-                    </p>
+const BLOCKS = [
+    {id:"grass",name:"Grass",material:materials.grass},
+    {id:"dirt",name:"Dirt",material:materials.dirt},
+    {id:"stone",name:"Stone",material:materials.stone},
+    {id:"sand",name:"Sand",material:materials.sand},
+    {id:"wood",name:"Wood",material:materials.wood},
+    {id:"leaves",name:"Leaves",material:materials.leaves},
+    {id:"brick",name:"Brick",material:materials.brick},
+    {id:"obsidian",name:"Obsidian",material:materials.obsidian}
+];
 
-                    <div class="product-bottom">
-                        <div class="price">
-                            <strong>49 000</strong>
-                            <del>61 000</del>
-                            <span>so‘m</span>
-                        </div>
+/* =========================================================
+   WORLD DATA
+   ========================================================= */
 
-                        <a href="#cart" class="add">
-                            +
-                        </a>
-                    </div>
+const world = new Map();
+const meshes = new Map();
 
-                </div>
+const WORLD_SIZE = 70;
 
-            </article>
+function key(x,y,z){
+    return `${x}|${y}|${z}`;
+}
 
+function setBlock(x,y,z,type){
 
-            <!-- PRODUCT 2 -->
-            <article class="product">
+    if(y < 0) return;
 
-                <div class="product-image">
-                    🍕
-                    <span class="discount">-15%</span>
-                    <button class="favorite">♡</button>
-                </div>
+    const k = key(x,y,z);
 
-                <div class="product-info">
+    if(type === null){
 
-                    <div class="rating">
-                        ⭐ 4.8 <span>(184)</span>
-                    </div>
+        world.delete(k);
 
-                    <h3>Pepperoni Pizza</h3>
+        const old = meshes.get(k);
 
-                    <p>
-                        Mozzarella pishlog‘i, pepperoni va maxsus
-                        pomidor sousi.
-                    </p>
+        if(old){
+            scene.remove(old);
+            meshes.delete(k);
+        }
 
-                    <div class="product-bottom">
-                        <div class="price">
-                            <strong>75 000</strong>
-                            <del>88 000</del>
-                            <span>so‘m</span>
-                        </div>
+        return;
+    }
 
-                        <a href="#cart" class="add">
-                            +
-                        </a>
-                    </div>
+    world.set(k,type);
 
-                </div>
+    const old = meshes.get(k);
 
-            </article>
+    if(old){
+        scene.remove(old);
+    }
 
+    const geo = new THREE.BoxGeometry(1,1,1);
 
-            <!-- PRODUCT 3 -->
-            <article class="product">
+    const mesh = new THREE.Mesh(
+        geo,
+        materials[type]
+    );
 
-                <div class="product-image">
-                    🍗
-                    <button class="favorite">♡</button>
-                </div>
+    mesh.position.set(
+        x+.5,
+        y+.5,
+        z+.5
+    );
 
-                <div class="product-info">
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
 
-                    <div class="rating">
-                        ⭐ 4.9 <span>(312)</span>
-                    </div>
+    mesh.userData = {
+        x,y,z,type
+    };
 
-                    <h3>Crispy Chicken</h3>
+    scene.add(mesh);
+    meshes.set(k,mesh);
+}
 
-                    <p>
-                        Qarsildoq qovurilgan tovuq, fri va maxsus
-                        sarimsoqli sous.
-                    </p>
+function getBlock(x,y,z){
+    return world.get(key(x,y,z));
+}
 
-                    <div class="product-bottom">
-                        <div class="price">
-                            <strong>42 000</strong>
-                            <span>so‘m</span>
-                        </div>
+/* =========================================================
+   RANDOM / TERRAIN
+   ========================================================= */
 
-                        <a href="#cart" class="add">
-                            +
-                        </a>
-                    </div>
+function seeded(x,z){
 
-                </div>
+    let n =
+        Math.sin(x*12.9898 + z*78.233) *
+        43758.5453;
 
-            </article>
+    return n-Math.floor(n);
+}
 
+function terrainHeight(x,z){
 
-            <!-- PRODUCT 4 -->
-            <article class="product">
+    const a =
+        Math.sin(x*.09)*3 +
+        Math.cos(z*.11)*3;
+
+    const b =
+        Math.sin((x+z)*.035)*7;
 
-                <div class="product-image">
-                    🍣
-                    <span class="discount">-10%</span>
-                    <button class="favorite">♡</button>
-                </div>
+    const c =
+        Math.cos((x-z)*.08)*2;
 
-                <div class="product-info">
+    return Math.floor(
+        9+a+b+c
+    );
+}
 
-                    <div class="rating">
-                        ⭐ 4.7 <span>(98)</span>
-                    </div>
+function generateWorld(){
 
-                    <h3>California Roll</h3>
+    const half = WORLD_SIZE/2;
 
-                    <p>
-                        Guruch, nori, bodring, avokado va
-                        yumshoq krem pishlog‘i.
-                    </p>
+    for(let x=-half;x<half;x++){
 
-                    <div class="product-bottom">
-                        <div class="price">
-                            <strong>65 000</strong>
-                            <del>72 000</del>
-                            <span>so‘m</span>
-                        </div>
+        for(let z=-half;z<half;z++){
 
-                        <a href="#cart" class="add">
-                            +
-                        </a>
-                    </div>
+            const h=terrainHeight(x,z);
 
-                </div>
+            for(let y=0;y<=h;y++){
 
-            </article>
+                let type="stone";
 
-        </div>
+                if(y===h){
+                    type = h<8 ? "sand":"grass";
+                }
+                else if(y>h-3){
+                    type="dirt";
+                }
 
-    </div>
+                setBlock(x,y,z,type);
+            }
 
-</section>
+            /* Trees */
 
+            if(
+                h>9 &&
+                seeded(x,z)>.965 &&
+                Math.abs(x)>4 &&
+                Math.abs(z)>4
+            ){
 
-<!-- RESTAURANTS -->
-<section class="section restaurants" id="restaurants">
+                for(let y=1;y<=4;y++){
+                    setBlock(
+                        x,
+                        h+y,
+                        z,
+                        "wood"
+                    );
+                }
 
-    <div class="container">
+                for(
+                    let dx=-2;
+                    dx<=2;
+                    dx++
+                ){
 
-        <div class="section-head">
-            <div>
-                <span class="eyebrow">TOP RESTORANLAR</span>
-                <h2>Sizga yaqin restoranlar</h2>
-            </div>
+                    for(
+                        let dz=-2;
+                        dz<=2;
+                        dz++
+                    ){
 
-            <a href="#" class="view-all">
-                Barchasini ko‘rish →
-            </a>
-        </div>
+                        for(
+                            let dy=3;
+                            dy<=5;
+                            dy++
+                        ){
 
+                            if(
+                                Math.abs(dx)+
+                                Math.abs(dz)+
+                                Math.abs(dy-4)
+                                <4
+                            ){
 
-        <div class="restaurant-grid">
+                                if(
+                                    !getBlock(
+                                        x+dx,
+                                        h+dy,
+                                        z+dz
+                                    )
+                                ){
 
-            <article class="restaurant">
-                <div class="restaurant-cover">🍔</div>
+                                    setBlock(
+                                        x+dx,
+                                        h+dy,
+                                        z+dz,
+                                        "leaves"
+                                    );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
-                <div class="restaurant-info">
-                    <div class="restaurant-logo">🍔</div>
+generateWorld();
 
-                    <div>
-                        <h3>Burger House</h3>
-                        <p>Fast Food • Burger</p>
+/* =========================================================
+   WATER
+   ========================================================= */
 
-                        <div class="restaurant-meta">
-                            ⭐ 4.9
-                            <span>•</span>
-                            🚴 25–30 min
-                        </div>
-                    </div>
-                </div>
-            </article>
+for(let x=-35;x<35;x++){
 
+    for(let z=-35;z<35;z++){
 
-            <article class="restaurant">
-                <div class="restaurant-cover pizza">🍕</div>
+        let h=terrainHeight(x,z);
 
-                <div class="restaurant-info">
-                    <div class="restaurant-logo">🍕</div>
+        if(h<6){
 
-                    <div>
-                        <h3>Pizza Roma</h3>
-                        <p>Italian • Pizza</p>
+            setBlock(
+                x,
+                6,
+                z,
+                "water"
+            );
+        }
+    }
+}
 
-                        <div class="restaurant-meta">
-                            ⭐ 4.8
-                            <span>•</span>
-                            🚴 20–25 min
-                        </div>
-                    </div>
-                </div>
-            </article>
+/* =========================================================
+   PLAYER
+   ========================================================= */
 
+const player = {
 
-            <article class="restaurant">
-                <div class="restaurant-cover sushi">🍣</div>
+    position:new THREE.Vector3(
+        0,
+        terrainHeight(0,0)+2,
+        0
+    ),
 
-                <div class="restaurant-info">
-                    <div class="restaurant-logo">🍣</div>
+    velocity:new THREE.Vector3(),
 
-                    <div>
-                        <h3>Sakura Sushi</h3>
-                        <p>Japanese • Sushi</p>
+    width:.65,
+    height:1.8,
 
-                        <div class="restaurant-meta">
-                            ⭐ 4.7
-                            <span>•</span>
-                            🚴 30–35 min
-                        </div>
-                    </div>
-                </div>
-            </article>
+    speed:6,
+    jump:8,
 
-        </div>
+    health:10,
 
-    </div>
+    grounded:false
+};
 
-</section>
+camera.position.copy(
+    player.position
+);
 
+let yaw=0;
+let pitch=0;
 
-<!-- ORDER -->
-<section class="order-section" id="cart">
+let pointerLocked=false;
 
-    <div class="container order-grid">
+/* =========================================================
+   INPUT
+   ========================================================= */
 
-        <div class="order-text">
+const keys={};
 
-            <span class="eyebrow">BUYURTMA BERISH</span>
+addEventListener("keydown",e=>{
 
-            <h2>
-                Taomingizni tanlang,
-                qolganini biz hal qilamiz.
-            </h2>
+    keys[e.code]=true;
 
-            <p>
-                Buyurtmangizni yetkazib berish uchun ma’lumotlaringizni
-                kiriting.
-            </p>
+    if(
+        e.code.startsWith("Digit")
+    ){
 
-        </div>
+        const n =
+            parseInt(
+                e.code.replace("Digit","")
+            );
 
+        if(n>=1 && n<=6){
+            selectSlot(n-1);
+        }
+    }
 
-        <form class="order-form">
+    if(e.code==="KeyF"){
+        saveGame();
+    }
+});
 
-            <h3>Buyurtma ma’lumotlari</h3>
+addEventListener("keyup",e=>{
+    keys[e.code]=false;
+});
 
-            <label>
-                Ismingiz
-                <input type="text" placeholder="Ismingizni kiriting">
-            </label>
+/* =========================================================
+   MOUSE LOOK
+   ========================================================= */
 
-            <label>
-                Telefon raqam
-                <input type="tel" placeholder="+998 90 123 45 67">
-            </label>
+document.addEventListener(
+    "mousemove",
+    e=>{
 
-            <label>
-                Yetkazib berish manzili
-                <input type="text" placeholder="Manzilni kiriting">
-            </label>
+        if(!pointerLocked) return;
 
-            <label>
-                To‘lov turi
-                <select>
-                    <option>Naqd pul</option>
-                    <option>Click</option>
-                    <option>Payme</option>
-                    <option>Bank karta</option>
-                </select>
-            </label>
+        yaw -= e.movementX*.0025;
+        pitch -= e.movementY*.0025;
 
-            <label>
-                Izoh
-                <textarea placeholder="Buyurtma bo‘yicha izoh..."></textarea>
-            </label>
+        pitch=Math.max(
+            -Math.PI/2+.1,
+            Math.min(
+                Math.PI/2-.1,
+                pitch
+            )
+        );
+    }
+);
 
-            <div class="order-total">
-                <span>Jami:</span>
-                <strong>166 000 so‘m</strong>
-            </div>
+/* =========================================================
+   CLICK
+   ========================================================= */
 
-            <button type="submit" class="order-button">
-                Buyurtma berish
-            </button>
+renderer.domElement.addEventListener(
+    "click",
+    ()=>{
 
-        </form>
+        if(!pointerLocked){
 
-    </div>
+            renderer.domElement.requestPointerLock();
+            return;
+        }
 
-</section>
+        breakBlock();
+    }
+);
 
+document.addEventListener(
+    "contextmenu",
+    e=>{
 
-<!-- FOOTER -->
-<footer class="footer">
+        e.preventDefault();
 
-    <div class="container footer-grid">
+        if(pointerLocked){
+            placeBlock();
+        }
+    }
+);
 
-        <div class="footer-brand">
+document.addEventListener(
+    "pointerlockchange",
+    ()=>{
 
-            <a href="#" class="logo">
-                <span>FOOD</span>GO
-            </a>
+        pointerLocked =
+            document.pointerLockElement ===
+            renderer.domElement;
+    }
+);
 
-            <p>
-                Sevimli taomlaringizni tez va qulay
-                tarzda buyurtma qiling.
-            </p>
+/* =========================================================
+   COLLISION
+   ========================================================= */
 
-            <div class="socials">
-                <a href="#">Instagram</a>
-                <a href="#">Telegram</a>
-                <a href="#">Facebook</a>
-            </div>
+function solidAt(x,y,z){
 
-        </div>
+    const b=getBlock(
+        Math.floor(x),
+        Math.floor(y),
+        Math.floor(z)
+    );
 
+    return b &&
+        b!=="water" &&
+        b!=="leaves";
+}
 
-        <div>
-            <h4>Kompaniya</h4>
-            <a href="#">Biz haqimizda</a>
-            <a href="#">Restoranlar</a>
-            <a href="#">Kuryer bo‘lish</a>
-            <a href="#">Vakansiyalar</a>
-        </div>
+function collision(){
 
+    const p=player.position;
 
-        <div>
-            <h4>Yordam</h4>
-            <a href="#">FAQ</a>
-            <a href="#">Yetkazib berish</a>
-            <a href="#">To‘lovlar</a>
-            <a href="#">Bog‘lanish</a>
-        </div>
+    const r=.3;
 
+    const points=[
+        [p.x-r,p.y,p.z-r],
+        [p.x+r,p.y,p.z-r],
+        [p.x-r,p.y,p.z+r],
+        [p.x+r,p.y,p.z+r],
 
-        <div>
-            <h4>Aloqa</h4>
-            <a href="tel:+998901234567">+998 90 123 45 67</a>
-            <a href="mailto:info@foodgo.uz">info@foodgo.uz</a>
-            <p>Toshkent, O‘zbekiston</p>
-        </div>
+        [p.x-r,p.y+1,p.z-r],
+        [p.x+r,p.y+1,p.z-r],
+        [p.x-r,p.y+1,p.z+r],
+        [p.x+r,p.y+1,p.z+r]
+    ];
 
-    </div>
+    for(const [x,y,z] of points){
 
+        if(solidAt(x,y,z)){
+            return true;
+        }
+    }
 
-    <div class="footer-bottom">
-        <div class="container">
-            © 2026 FOODGO. Barcha huquqlar himoyalangan.
-        </div>
-    </div>
+    return false;
+}
 
-</footer>
+function movePlayer(dx,dy,dz){
 
+    player.position.x += dx;
+
+    if(collision()){
+        player.position.x -= dx;
+        player.velocity.x=0;
+    }
+
+    player.position.z += dz;
+
+    if(collision()){
+        player.position.z -= dz;
+        player.velocity.z=0;
+    }
+
+    player.position.y += dy;
+
+    if(collision()){
+
+        if(dy<0){
+
+            player.grounded=true;
+        }
+
+        player.position.y -= dy;
+        player.velocity.y=0;
+
+    }else{
+        player.grounded=false;
+    }
+}
+
+/* =========================================================
+   BLOCK RAYCAST
+   ========================================================= */
+
+const raycaster = new THREE.Raycaster();
+
+function raycastBlock(){
+
+    raycaster.setFromCamera(
+        new THREE.Vector2(0,0),
+        camera
+    );
+
+    const hits =
+        raycaster.intersectObjects(
+            [...meshes.values()]
+        );
+
+    if(!hits.length) return null;
+
+    const hit=hits[0];
+
+    if(hit.distance>7) return null;
+
+    return hit;
+}
+
+/* =========================================================
+   BREAK
+   ========================================================= */
+
+function breakBlock(){
+
+    const hit=raycastBlock();
+
+    if(!hit) return;
+
+    const d=hit.object.userData;
+
+    if(d.y<=0) return;
+
+    setBlock(
+        d.x,
+        d.y,
+        d.z,
+        null
+    );
+}
+
+/* =========================================================
+   INVENTORY
+   ========================================================= */
+
+const inventory = [
+
+    {type:"grass",count:64},
+    {type:"dirt",count:64},
+    {type:"stone",count:64},
+    {type:"sand",count:64},
+    {type:"wood",count:32},
+    {type:"leaves",count:32},
+    {type:"brick",count:32},
+    {type:"obsidian",count:16}
+];
+
+let selected=0;
+
+function selectSlot(i){
+
+    selected=i;
+
+    updateInventory();
+
+    document.getElementById(
+        "selectedName"
+    ).textContent =
+        BLOCKS[
+            selected
+        ].name;
+}
+
+function updateInventory(){
+
+    const el=
+        document.getElementById(
+            "inventory"
+        );
+
+    el.innerHTML="";
+
+    for(
+        let i=0;
+        i<6;
+        i++
+    ){
+
+        const slot=
+            document.createElement("div");
+
+        slot.className=
+            "slot"+
+            (i===selected
+                ?" selected":"");
+
+        const num=
+            document.createElement("div");
+
+        num.className="num";
+        num.textContent=i+1;
+
+        const icon=
+            document.createElement("div");
+
+        icon.className="block-icon";
+
+        icon.style.background=
+            BLOCKS[i].material.color.getStyle();
+
+        const count=
+            document.createElement("div");
+
+        count.className="count";
+        count.textContent=
+            inventory[i].count;
+
+        slot.appendChild(num);
+        slot.appendChild(icon);
+        slot.appendChild(count);
+
+        slot.addEventListener(
+            "click",
+            ()=>{
+                selectSlot(i);
+            }
+        );
+
+        el.appendChild(slot);
+    }
+}
+
+updateInventory();
+
+/* =========================================================
+   PLACE BLOCK
+   ========================================================= */
+
+function placeBlock(){
+
+    const hit=raycastBlock();
+
+    if(!hit) return;
+
+    const d=hit.object.userData;
+
+    const normal =
+        hit.face.normal.clone();
+
+    const x =
+        d.x + Math.round(normal.x);
+
+    const y =
+        d.y + Math.round(normal.y);
+
+    const z =
+        d.z + Math.round(normal.z);
+
+    if(getBlock(x,y,z)) return;
+
+    /* player safety */
+
+    const px=player.position.x;
+    const py=player.position.y;
+    const pz=player.position.z;
+
+    if(
+        x>=Math.floor(px-.4) &&
+        x<=Math.floor(px+.4) &&
+        z>=Math.floor(pz-.4) &&
+        z<=Math.floor(pz+.4) &&
+        y>=Math.floor(py) &&
+        y<=Math.floor(py+1.8)
+    ){
+        return;
+    }
+
+    if(inventory[selected].count<=0) return;
+
+    setBlock(
+        x,y,z,
+        BLOCKS[selected].id
+    );
+
+    inventory[selected].count--;
+
+    updateInventory();
+}
+
+/* =========================================================
+   SAVE / LOAD
+   ========================================================= */
+
+function saveGame(){
+
+    const save={
+        player:{
+            x:player.position.x,
+            y:player.position.y,
+            z:player.position.z,
+            health:player.health
+        },
+
+        blocks:[
+            ...world.entries()
+        ],
+
+        inventory
+    };
+
+    localStorage.setItem(
+        "BLOCK_WORLD_X_SAVE",
+        JSON.stringify(save)
+    );
+
+    showMessage(
+        "✅ Dunyo saqlandi!"
+    );
+}
+
+function loadGame(){
+
+    const raw=
+        localStorage.getItem(
+            "BLOCK_WORLD_X_SAVE"
+        );
+
+    if(!raw) return;
+
+    const save=
+        JSON.parse(raw);
+
+    for(const mesh of meshes.values()){
+        scene.remove(mesh);
+    }
+
+    world.clear();
+    meshes.clear();
+
+    for(const [k,type] of save.blocks){
+
+        const [x,y,z]=k
+            .split("|")
+            .map(Number);
+
+        setBlock(
+            x,y,z,type
+        );
+    }
+
+    player.position.set(
+        save.player.x,
+        save.player.y,
+        save.player.z
+    );
+
+    player.health=
+        save.player.health;
+
+    if(save.inventory){
+
+        for(
+            let i=0;
+            i<inventory.length;
+            i++
+        ){
+
+            inventory[i].count=
+                save.inventory[i].count;
+        }
+    }
+
+    updateInventory();
+
+    showMessage(
+        "✅ Dunyo yuklandi!"
+    );
+}
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+let messageTimer=0;
+
+function showMessage(text){
+
+    const el=
+        document.getElementById(
+            "message"
+        );
+
+    el.textContent=text;
+    el.style.opacity=1;
+
+    clearTimeout(messageTimer);
+
+    messageTimer=setTimeout(
+        ()=>{
+            el.style.opacity=0;
+        },
+        1800
+    );
+}
+
+/* =========================================================
+   DAY / NIGHT
+   ========================================================= */
+
+let worldTime=0;
+
+function updateDayNight(dt){
+
+    worldTime += dt*.02;
+
+    const t=
+        worldTime%(Math.PI*2);
+
+    const sunX=
+        Math.cos(t)*80;
+
+    const sunY=
+        Math.sin(t)*80;
+
+    sun.position.set(
+        sunX,
+        Math.max(5,sunY),
+        20
+    );
+
+    const brightness =
+        Math.max(
+            .2,
+            Math.sin(t)*.5+.5
+        );
+
+    sun.intensity=
+        .3+brightness*1.7;
+
+    hemi.intensity=
+        .45+brightness;
+
+    const skyR=
+        Math.floor(
+            70+brightness*150
+        );
+
+    const skyG=
+        Math.floor(
+            80+brightness*150
+        );
+
+    const skyB=
+        Math.floor(
+            120+brightness*130
+        );
+
+    scene.background =
+        new THREE.Color(
+            `rgb(${skyR},${skyG},${skyB})`
+        );
+
+    scene.fog.color.copy(
+        scene.background
+    );
+}
+
+/* =========================================================
+   ENEMIES
+   ========================================================= */
+
+const enemies=[];
+
+function spawnEnemy(){
+
+    const x=
+        Math.floor(
+            (Math.random()-.5)*50
+        );
+
+    const z=
+        Math.floor(
+            (Math.random()-.5)*50
+        );
+
+    const y=
+        terrainHeight(x,z)+1;
+
+    const geo=
+        new THREE.BoxGeometry(
+            .7,1.4,.7
+        );
+
+    const material=
+        mat(0x8e2b2b);
+
+    const mesh=
+        new THREE.Mesh(
+            geo,
+            material
+        );
+
+    mesh.position.set(
+        x+.5,
+        y+.7,
+        z+.5
+    );
+
+    mesh.castShadow=true;
+
+    scene.add(mesh);
+
+    enemies.push({
+        mesh,
+        health:3,
+        speed:1.3
+    });
+}
+
+for(let i=0;i<8;i++){
+    spawnEnemy();
+}
+
+function updateEnemies(dt){
+
+    for(
+        let i=enemies.length-1;
+        i>=0;
+        i--
+    ){
+
+        const e=enemies[i];
+
+        const dx=
+            player.position.x-
+            e.mesh.position.x;
+
+        const dz=
+            player.position.z-
+            e.mesh.position.z;
+
+        const dist=
+            Math.hypot(dx,dz);
+
+        if(dist<18){
+
+            if(dist>1.4){
+
+                e.mesh.position.x +=
+                    dx/dist*
+                    e.speed*dt;
+
+                e.mesh.position.z +=
+                    dz/dist*
+                    e.speed*dt;
+            }
+
+            if(dist<1.7){
+
+                player.health-=
+                    dt*.5;
+
+                updateHealth();
+
+                if(player.health<=0){
+
+                    player.health=10;
+
+                    player.position.set(
+                        0,
+                        terrainHeight(0,0)+2,
+                        0
+                    );
+
+                    showMessage(
+                        "💀 Siz qayta tirildingiz!"
+                    );
+                }
+            }
+
+        }
+    }
+}
+
+/* =========================================================
+   PLAYER HEALTH
+   ========================================================= */
+
+function updateHealth(){
+
+    let s="";
+
+    const hp=Math.ceil(
+        player.health
+    );
+
+    for(
+        let i=0;
+        i<10;
+        i++
+    ){
+
+        s +=
+            i<hp
+            ? "❤️"
+            : "🖤";
+    }
+
+    document.getElementById(
+        "health"
+    ).textContent=s;
+}
+
+/* =========================================================
+   MOVEMENT
+   ========================================================= */
+
+function updatePlayer(dt){
+
+    const forward =
+        new THREE.Vector3(
+            -Math.sin(yaw),
+            0,
+            -Math.cos(yaw)
+        );
+
+    const right =
+        new THREE.Vector3(
+            Math.cos(yaw),
+            0,
+            -Math.sin(yaw)
+        );
+
+    const move=
+        new THREE.Vector3();
+
+    if(keys["KeyW"])
+        move.add(forward);
+
+    if(keys["KeyS"])
+        move.sub(forward);
+
+    if(keys["KeyD"])
+        move.add(right);
+
+    if(keys["KeyA"])
+        move.sub(right);
+
+    if(move.length()>0){
+        move.normalize();
+    }
+
+    player.velocity.x=
+        move.x*player.speed;
+
+    player.velocity.z=
+        move.z*player.speed;
+
+    if(
+        keys["Space"] &&
+        player.grounded
+    ){
+
+        player.velocity.y=
+            player.jump;
+
+        player.grounded=false;
+    }
+
+    player.velocity.y -=
+        20*dt;
+
+    movePlayer(
+        player.velocity.x*dt,
+        player.velocity.y*dt,
+        player.velocity.z*dt
+    );
+
+    if(player.position.y<-20){
+
+        player.position.set(
+            0,
+            terrainHeight(0,0)+3,
+            0
+        );
+    }
+
+    camera.position.set(
+        player.position.x,
+        player.position.y+1.55,
+        player.position.z
+    );
+
+    camera.rotation.order="YXZ";
+
+    camera.rotation.y=yaw;
+    camera.rotation.x=pitch;
+
+    document.getElementById(
+        "coords"
+    ).textContent=
+        `X:${Math.floor(player.position.x)}
+         Y:${Math.floor(player.position.y)}
+         Z:${Math.floor(player.position.z)}`;
+}
+
+/* =========================================================
+   START
+   ========================================================= */
+
+document.getElementById(
+    "play"
+).addEventListener(
+    "click",
+    ()=>{
+
+        document.getElementById(
+            "start"
+        ).style.display="none";
+
+        renderer.domElement.requestPointerLock();
+
+        loadGame();
+    }
+);
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+addEventListener(
+    "resize",
+    ()=>{
+
+        camera.aspect=
+            innerWidth/innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
+    }
+);
+
+/* =========================================================
+   GAME LOOP
+   ========================================================= */
+
+let last=performance.now();
+
+function animate(){
+
+    requestAnimationFrame(
+        animate
+    );
+
+    const now=performance.now();
+
+    let dt=
+        (now-last)/1000;
+
+    last=now;
+
+    dt=Math.min(dt,.05);
+
+    if(pointerLocked){
+
+        updatePlayer(dt);
+        updateEnemies(dt);
+        updateDayNight(dt);
+    }
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+animate();
+
+/* =========================================================
+   AUTO SAVE
+   ========================================================= */
+
+setInterval(
+    ()=>{
+        if(pointerLocked){
+            saveGame();
+        }
+    },
+    30000
+);
+
+</script>
 </body>
 </html>
-```
